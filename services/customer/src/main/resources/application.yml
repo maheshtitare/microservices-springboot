@@ -1,12 +1,13 @@
 server:
-  port: 8081   # internal only
+  port: 8081
 
 spring:
   application:
     name: customer-service
 
-  config:
-    enabled: false   # Render pe config server disable
+  cloud:
+    config:
+      enabled: false   # 👈 THIS IS THE KEY FIX
 
 eureka:
   client:
