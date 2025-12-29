@@ -4,63 +4,58 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+/*
+ * Customer REST Controller
+ * Base Path: /api/v1/customers
+ * NOTE: This service is INTERNAL.
+ * Access should happen ONLY via API Gateway.
+ */
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping(
+        value = "/api/v1/customers",
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 @RequiredArgsConstructor
 public class CustomerController {
 
-  private final CustomerService service;
+    private final CustomerService service;
 
-  @PostMapping
-  public ResponseEntity<String> createCustomer(
-      @RequestBody @Valid CustomerRequest request
-  ) {
-    return ResponseEntity.ok(this.service.createCustomer(request));
-  }
+    // ================= CREATE CUSTOMER =================
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Customer> createCustomer(
+            @RequestBody @Valid CustomerRequest request
+    ) {
+        Customer customer = service.createCustomer(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+    }
 
-  @PutMapping
-  public ResponseEntity<Void> updateCustomer(
-      @RequestBody @Valid CustomerRequest request
-  ) {
-    this.service.updateCustomer(request);
-    return ResponseEntity.accepted().build();
-  }
+    // ================= GET ALL CUSTOMERS =================
+    @GetMapping
+    public ResponseEntity<List<Customer>> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping
-  public ResponseEntity<List<CustomerResponse>> findAll() {
-    return ResponseEntity.ok(this.service.findAllCustomers());
-  }
+    // ================= GET CUSTOMER BY ID =================
+    @GetMapping("/{customerId}")
+    public ResponseEntity<Customer> findById(
+            @PathVariable String customerId
+    ) {
+        return ResponseEntity.ok(service.findById(customerId));
+    }
 
-  @GetMapping("/exists/{customer-id}")
-  public ResponseEntity<Boolean> existsById(
-      @PathVariable("customer-id") String customerId
-  ) {
-    return ResponseEntity.ok(this.service.existsById(customerId));
-  }
-
-  @GetMapping("/{customer-id}")
-  public ResponseEntity<CustomerResponse> findById(
-      @PathVariable("customer-id") String customerId
-  ) {
-    return ResponseEntity.ok(this.service.findById(customerId));
-  }
-
-  @DeleteMapping("/{customer-id}")
-  public ResponseEntity<Void> delete(
-      @PathVariable("customer-id") String customerId
-  ) {
-    this.service.deleteCustomer(customerId);
-    return ResponseEntity.accepted().build();
-  }
-
+    // ================= DELETE CUSTOMER =================
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable String customerId
+    ) {
+        service.delete(customerId);
+        return ResponseEntity.noContent().build();
+    }
 }

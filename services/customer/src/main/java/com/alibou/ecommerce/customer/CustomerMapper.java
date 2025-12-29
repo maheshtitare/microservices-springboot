@@ -5,29 +5,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerMapper {
 
-  public Customer toCustomer(CustomerRequest request) {
-    if (request == null) {
-      return null;
+    // CustomerRequest -> Customer (Entity)
+    public Customer toCustomer(CustomerRequest request) {
+        return Customer.builder()
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .build();
     }
-    return Customer.builder()
-        .id(request.id())
-        .firstname(request.firstname())
-        .lastname(request.lastname())
-        .email(request.email())
-        .address(request.address())
-        .build();
-  }
 
-  public CustomerResponse fromCustomer(Customer customer) {
-    if (customer == null) {
-      return null;
+    // Customer -> CustomerResponse
+    public CustomerResponse toResponse(Customer customer) {
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail()
+        );
     }
-    return new CustomerResponse(
-        customer.getId(),
-        customer.getFirstname(),
-        customer.getLastname(),
-        customer.getEmail(),
-        customer.getAddress()
-    );
-  }
 }

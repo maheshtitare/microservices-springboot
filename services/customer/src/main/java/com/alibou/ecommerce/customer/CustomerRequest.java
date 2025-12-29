@@ -1,18 +1,18 @@
 package com.alibou.ecommerce.customer;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record CustomerRequest(
-    String id,
-    @NotNull(message = "Customer firstname is required")
-    String firstname,
-    @NotNull(message = "Customer firstname is required")
-    String lastname,
-    @NotNull(message = "Customer Email is required")
-    @Email(message = "Customer Email is not a valid email address")
-    String email,
-    Address address
-) {
 
+        @NotBlank(message = "Customer firstName is required")
+        String firstName,
+
+        @NotBlank(message = "Customer lastName is required")
+        String lastName,
+
+        @NotBlank(message = "Customer Email is required")
+        @Email(message = "Customer Email is not a valid email address")
+        String email
+) {
 }
