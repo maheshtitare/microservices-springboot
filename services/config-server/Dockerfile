@@ -7,6 +7,9 @@ RUN apk add --no-cache maven
 # App working directory
 WORKDIR /app
 
+# FORCE native profile
+ENV SPRING_PROFILES_ACTIVE=native
+
 # Copy project files
 COPY . .
 
