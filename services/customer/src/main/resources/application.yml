@@ -7,7 +7,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://maheshbhai:Mahesh@123Mongo@cluster1.ju5rpoa.mongodb.net/customerdb?retryWrites=true&w=majority
+      uri: mongodb+srv://maheshbhai:Mahesh123Mongo@cluster1.ju5rpoa.mongodb.net/customerdb?retryWrites=true&w=majority
 
 eureka:
   client:
