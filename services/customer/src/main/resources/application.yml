@@ -7,9 +7,11 @@ spring:
 
   cloud:
     config:
-      enabled: false   # 👈 THIS IS THE KEY FIX
+      enabled: false
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: https://discovery-server-196g.onrender.com/eureka
