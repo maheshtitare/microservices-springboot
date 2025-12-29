@@ -6,11 +6,11 @@ spring:
     name: customer-service
 
   config:
-    import: optional:configserver:http://localhost:8888
+    enabled: false   # Render pe config server disable
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: https://discovery-server-196g.onrender.com/eureka
     register-with-eureka: true
     fetch-registry: true
