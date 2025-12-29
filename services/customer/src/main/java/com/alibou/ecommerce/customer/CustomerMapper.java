@@ -1,26 +1,22 @@
 package com.alibou.ecommerce.customer;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Component
-public class CustomerMapper {
+@Service
+public class CustomerService {
 
-    // CustomerRequest -> Customer (Entity)
-    public Customer toCustomer(CustomerRequest request) {
-        return Customer.builder()
-                .firstName(request.firstName())
-                .lastName(request.lastName())
-                .email(request.email())
-                .build();
+    private final CustomerRepository repository;
+
+    public CustomerService(CustomerRepository repository) {
+        this.repository = repository;
     }
 
-    // Customer -> CustomerResponse
-    public CustomerResponse toResponse(Customer customer) {
-        return new CustomerResponse(
-                customer.getId(),
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getEmail()
-        );
+    public Customer create(Customer customer) {
+        return repository.save(customer);
+    }
+
+    public List<Customer> findAll() {
+        return repository.findAll();
     }
 }

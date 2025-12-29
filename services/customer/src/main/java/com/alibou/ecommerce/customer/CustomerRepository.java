@@ -1,8 +1,7 @@
-// Question: Create MongoRepository for Customer
-package com.yourpackage.customer.repository;
+package com.alibou.ecommerce.customer;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.yourpackage.customer.model.Customer;
 
-public interface CustomerRepository extends MongoRepository<Customer, String> {
+public interface CustomerRepository
+        extends MongoRepository<Customer, String> {
 }
