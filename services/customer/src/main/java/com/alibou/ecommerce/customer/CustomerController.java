@@ -1,61 +1,44 @@
-package com.alibou.ecommerce.customer;
+// Question: Create CRUD APIs for Customer
+package com.yourpackage.customer.controller;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/*
- * Customer REST Controller
- * Base Path: /api/v1/customers
- * NOTE: This service is INTERNAL.
- * Access should happen ONLY via API Gateway.
- */
+import com.yourpackage.customer.model.Customer;
+import com.yourpackage.customer.repository.CustomerRepository;
 
 @RestController
-@RequestMapping(
-        value = "/api/v1/customers",
-        produces = MediaType.APPLICATION_JSON_VALUE
-)
-@RequiredArgsConstructor
+@RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerService service;
+    private final CustomerRepository repository;
 
-    // ================= CREATE CUSTOMER =================
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Customer> createCustomer(
-            @RequestBody @Valid CustomerRequest request
-    ) {
-        Customer customer = service.createCustomer(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+    public CustomerController(CustomerRepository repository) {
+        this.repository = repository;
     }
 
-    // ================= GET ALL CUSTOMERS =================
+    // CREATE
+    @PostMapping
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return repository.save(customer);
+    }
+
+    // READ ALL
     @GetMapping
-    public ResponseEntity<List<Customer>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public List<Customer> getAllCustomers() {
+        return repository.findAll();
     }
 
-    // ================= GET CUSTOMER BY ID =================
-    @GetMapping("/{customerId}")
-    public ResponseEntity<Customer> findById(
-            @PathVariable String customerId
-    ) {
-        return ResponseEntity.ok(service.findById(customerId));
+    // READ BY ID
+    @GetMapping("/{id}")
+    public Customer getCustomerById(@PathVariable String id) {
+        return repository.findById(id).orElse(null);
     }
 
-    // ================= DELETE CUSTOMER =================
-    @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> delete(
-            @PathVariable String customerId
-    ) {
-        service.delete(customerId);
-        return ResponseEntity.noContent().build();
+    // DELETE
+    @DeleteMapping("/{id}")
+    public void deleteCustomer(@PathVariable String id) {
+        repository.deleteById(id);
     }
 }
