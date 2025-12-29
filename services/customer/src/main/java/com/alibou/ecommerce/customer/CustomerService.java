@@ -12,11 +12,23 @@ public class CustomerService {
         this.repository = repository;
     }
 
+    // CREATE
     public Customer create(Customer customer) {
         return repository.save(customer);
     }
 
+    // READ ALL
     public List<Customer> findAll() {
         return repository.findAll();
+    }
+
+    // READ BY ID
+    public Customer findById(String id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    // DELETE
+    public void delete(String id) {
+        repository.deleteById(id);
     }
 }

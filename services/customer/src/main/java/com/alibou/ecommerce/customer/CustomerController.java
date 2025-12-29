@@ -1,44 +1,35 @@
-// Question: Create CRUD APIs for Customer
-package com.yourpackage.customer.controller;
-
-import java.util.List;
+package com.alibou.ecommerce.customer;
 
 import org.springframework.web.bind.annotation.*;
-
-import com.yourpackage.customer.model.Customer;
-import com.yourpackage.customer.repository.CustomerRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerRepository repository;
+    private final CustomerService service;
 
-    public CustomerController(CustomerRepository repository) {
-        this.repository = repository;
+    public CustomerController(CustomerService service) {
+        this.service = service;
     }
 
-    // CREATE
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return repository.save(customer);
+    public Customer create(@RequestBody Customer customer) {
+        return service.create(customer);
     }
 
-    // READ ALL
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return repository.findAll();
+    public List<Customer> getAll() {
+        return service.findAll();
     }
 
-    // READ BY ID
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable String id) {
-        return repository.findById(id).orElse(null);
+    public Customer getById(@PathVariable String id) {
+        return service.findById(id);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable String id) {
-        repository.deleteById(id);
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }
