@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8084
 
 spring:
   application:
@@ -7,7 +7,7 @@ spring:
 
   cloud:
     config:
-      enabled: false
+      enabled: false   # ✅ STEP-6 FIX (Config Server disable)
 
   data:
     mongodb:
@@ -16,6 +16,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: https://discovery-server-196g.onrender.com/eureka
+      defaultZone: http://localhost:8762/eureka
     register-with-eureka: true
     fetch-registry: true

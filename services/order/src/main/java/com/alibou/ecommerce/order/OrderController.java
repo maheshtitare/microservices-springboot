@@ -1,40 +1,41 @@
+// Question: Order REST controller for CRUD APIs
 package com.alibou.ecommerce.order;
+
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("/api/v1/orders")
-@RequiredArgsConstructor
 public class OrderController {
 
-  private final OrderService service;
+    private final OrderService orderService;
 
-  @PostMapping
-  public ResponseEntity<Integer> createOrder(
-      @RequestBody @Valid OrderRequest request
-  ) {
-    return ResponseEntity.ok(this.service.createOrder(request));
-  }
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
-  @GetMapping
-  public ResponseEntity<List<OrderResponse>> findAll() {
-    return ResponseEntity.ok(this.service.findAllOrders());
-  }
+    // Create Order
+    @PostMapping
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.createOrder(order);
+    }
 
-  @GetMapping("/{order-id}")
-  public ResponseEntity<OrderResponse> findById(
-      @PathVariable("order-id") Integer orderId
-  ) {
-    return ResponseEntity.ok(this.service.findById(orderId));
-  }
+    // Get all Orders
+    @GetMapping
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+
+    // Get Order by ID
+    @GetMapping("/{id}")
+    public Order getOrderById(@PathVariable String id) {
+        return orderService.getOrderById(id);
+    }
+
+    // Delete Order
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable String id) {
+        orderService.deleteOrder(id);
+    }
 }

@@ -1,4 +1,5 @@
-package com.alibou.ecommerce.customer;
+// Question: Feign client to communicate with Customer Service
+package com.alibou.ecommerce.order.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "customer-service")
 public interface CustomerClient {
 
-    @GetMapping("/api/v1/customers/{id}")
-    CustomerResponse getCustomerById(@PathVariable("id") String id);
+    @GetMapping("/customers/{id}")
+    Object getCustomerById(@PathVariable("id") String id);
 }

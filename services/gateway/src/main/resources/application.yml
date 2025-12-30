@@ -3,27 +3,24 @@ server:
 
 spring:
   application:
-    name: api-gateway
+    name: gateway-service
 
   cloud:
-    config:
-      enabled: false
-
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-
       routes:
         - id: customer-service
           uri: lb://customer-service
           predicates:
-            - Path=/customers/**
-          filters:
-            - RewritePath=/customers(?<segment>/?.*), /api/v1/customers${segment}
+            - Path=/api/v1/customers/**
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/v1/orders/**
 
 eureka:
   client:
     service-url:
-      defaultZone: https://discovery-server-196g.onrender.com/eureka
+      defaultZone: http://localhost:8762/eureka
+  instance:
+    prefer-ip-address: true

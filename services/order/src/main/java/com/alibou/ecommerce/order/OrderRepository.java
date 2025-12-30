@@ -1,7 +1,7 @@
+// Question: Order repository for MongoDB
 package com.alibou.ecommerce.order;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface OrderRepository extends JpaRepository<Order, Integer> {
-
+public interface OrderRepository extends MongoRepository<Order, String> {
 }
