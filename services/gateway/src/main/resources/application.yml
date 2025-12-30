@@ -1,5 +1,5 @@
 server:
-  port: 8222
+  port: 8080
 
 spring:
   application:
@@ -9,18 +9,11 @@ spring:
     gateway:
       routes:
         - id: customer-service
-          uri: lb://customer-service
+          uri: https://customer-service-i7ps.onrender.com
           predicates:
             - Path=/api/v1/customers/**
 
         - id: order-service
-          uri: lb://order-service
+          uri: https://order-service-t6cp.onrender.com
           predicates:
             - Path=/api/v1/orders/**
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8762/eureka
-  instance:
-    prefer-ip-address: true
